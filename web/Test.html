@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        #myProgress {
+            width: 100%;
+            height: 30px;
+            background-color: #4caf50;
+        }
+        #myBar {
+            float: left;
+            width: 90%;
+            height: 30px;
+            background-color: #ddd;
+        }
+    </style>
+    <body>
+        <div id="myBar">
+            <div id="myProgress">100%</div>
+        </div>
+        <div style="width: 10%; background-color: #F4F4F4; float: right; height: 30px;">
+            <p id="clock" style="text-align: center; line-height: 0px;">00:00:00</p>
+        </div>
+
+        <br />
+
+        <script>
+            move();
+            function move() {
+                var progress = document.getElementById("myProgress");
+                var time = document.getElementById("clock");
+                var i = 100; // thời gian làm quiz
+                var width = 100; // độ dài của thanh progress;
+
+                var percentage = i / 100; // biến check 1% trong thời gian làm quiz là bao nhiêu s
+                var count = 0; // biến đếm khi nào progress đạt dc 1%
+
+                var date = new Date(null);
+                date.setSeconds(i); // thời gian làm quiz dc format thành (giờ phút giây)
+
+                var id = setInterval(frame, 1000); // chạy hàm frame liên tục mỗi giây
+                function frame() {
+                    if (i <= 0) {
+                        // điều kiện kết thúc khi làm quiz là thời gian = 0
+                        clearInterval(id); // kết thúc hàm frame;
+                        alert("End Quiz");
+                    } else {
+                        i--; // giảm từng giây
+                        count++;
+                        if (count == percentage) {
+                            // điều kiện check khi nào đạt đủ 1% để trừ
+                            count = 0; // đếm lại từ đầu
+                            width--; // giảm độ dài
+                            progress.innerHTML = width + "%"; // hiển thị lại tiến trình
+                            progress.style.width = width + "%"; // chỉnh lại độ dài của thanh progress
+                        }
+                        date = new Date(null);
+                        date.setSeconds(i);
+                        time.innerHTML = date.toISOString().substr(11, 8); // format giây thành (giờ phút giây)
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
